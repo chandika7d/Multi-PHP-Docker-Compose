@@ -13,6 +13,7 @@ services:
       - mariadb
     environment:
       - UPLOAD_LIMIT=512M
+      
   php-8.1:
     build:
       context: .
@@ -25,6 +26,7 @@ services:
       - mariadb
     environment:
       - UPLOAD_LIMIT=512M
+
   php-8.2:
     build:
       context: .
@@ -37,14 +39,15 @@ services:
       - mariadb
     environment:
       - UPLOAD_LIMIT=512M
+
   mariadb:
     image: mariadb
     restart: always
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: qc7nry3o47cynr
-      MYSQL_USER: userdb
-      MYSQL_PASSWORD: qc7nry3o47cynr
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./data:/var/lib/mysql
