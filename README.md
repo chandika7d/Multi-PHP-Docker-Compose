@@ -4,7 +4,8 @@
 1. Buat folder data
 2. Copy .env.example ke .env
 3. Sesuaikan .env
-4. Jalankan ```docker-compose -p "web-service" up -d --build``` untuk menjalankan semua service atau ```docker-compose -p "web-service" up -d --build php-7.4``` untuk menjalankan 1 service (ganti php-7.4 sesuai versi yang ingin digunakan)
+4. Jalankan ```docker-compose -p "web-service" up -d --build``` untuk menjalankan semua service
+5. atau jalankan ```docker-compose -p "web-service" up -d --build php-7.4``` untuk menjalankan 1 service (ganti php-7.4 sesuai versi yang ingin digunakan)
 
 ## ENV
 1. UID : ID User
