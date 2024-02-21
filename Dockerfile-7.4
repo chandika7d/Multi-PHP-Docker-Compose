@@ -4,7 +4,7 @@ FROM php:7.4-apache
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 RUN apt-get update
-RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev
+RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev libxml2-dev
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 
