@@ -6,6 +6,15 @@
 3. Sesuaikan .env
 4. Jalankan ```docker-compose -p "web-service" up -d --build``` untuk menjalankan semua service atau ```docker-compose -p "web-service" up -d --build php-7.4``` untuk menjalankan 1 service (ganti php-7.4 sesuai versi yang ingin digunakan)
 
+## ENV
+1. UID : ID User
+2. GID : ID Group
+3. MYSQL_ROOT_PASSWORD : Password Root MariaDB
+4. MYSQL_USER : Username MariaDB
+5. MYSQL_PASSWORD : Password untuk user dengan username diatas
+6. PROJECT_FOLDER : Lokasi folder project php (sama kaya htdocs)
+
+
 ## Info
 1. Jika terjadi error seperti dibawah itu normal, karena port disetting sama.
 ![image](https://github.com/chandika7d/Multi-PHP-Docker-Compose/assets/20274245/9ed0c333-8746-42ac-bc6b-20db9c1c1f11)
