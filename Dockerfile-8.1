@@ -1,0 +1,27 @@
+# Gunakan image resmi PHP 8.1 dengan Apache
+FROM php:8.1-apache
+
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+RUN apt-get update
+RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev
+
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
+
+# Instal ekstensi PHP yang diperlukan untuk pengembangan
+RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql zip gd
+
+# Aktifkan mod_rewrite untuk Apache
+RUN a2enmod rewrite
+
+# Set konfigurasi virtual host Apache
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+
+# Aktifkan konfigurasi virtual host yang baru
+RUN a2ensite 000-default.conf
+
+# Restart Apache untuk menerapkan perubahan
+RUN service apache2 restart
+
+# Set folder proyek sebagai volume
+VOLUME /var/www/html
