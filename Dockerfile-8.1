@@ -20,9 +20,6 @@ RUN unzip /tmp/instantclient-basic-linux.x64-*.zip -d /usr/local/ \
 RUN ln -s /usr/local/instantclient_21_12 /usr/local/instantclient \
     && ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus 
 
-# RUN ln -s /usr/local/instantclient/libclntsh.so.21.1 /usr/local/instantclient/libclntsh.so
-# RUN ln -s /usr/local/instantclient/libocci.so.21.1 /usr/local/instantclient/libclntsh.so
-
 RUN docker-php-ext-configure oci8 --with-oci8=instantclient,/usr/local/instantclient
 RUN docker-php-ext-install oci8
 RUN echo /usr/local/instantclient/ > /etc/ld.so.conf.d/oracle-instantclient.conf
