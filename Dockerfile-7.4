@@ -3,13 +3,38 @@ FROM php:7.4-apache
 
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
+# Install package 
 RUN apt-get update
-RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev libxml2-dev
+RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev libxml2-dev unzip libc6 libaio1 curl libcurl4-openssl-dev libonig-dev libbz2-dev libfreetype6-dev libmcrypt-dev libreadline-dev libedit-dev libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
 
+# ADD oracle/instantclient-basic-linux.x64-12.1.0.2.0.zip /tmp/
+ADD https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip /tmp/
+# ADD oracle/instantclient-sdk-linux.x64-12.1.0.2.0.zip /tmp/
+ADD https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sdk-linux.x64-21.1.0.0.0.zip /tmp/
+# ADD oracle/instantclient-sqlplus-linux.x64-12.1.0.2.0.zip /tmp/
+ADD https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip /tmp/
+
+# unzip them
+RUN unzip /tmp/instantclient-basic-linux.x64-*.zip -d /usr/local/ \
+    && unzip /tmp/instantclient-sdk-linux.x64-*.zip -d /usr/local/ \
+    && unzip /tmp/instantclient-sqlplus-linux.x64-*.zip -d /usr/local/
+
+# install oci8
+RUN ln -s /usr/local/instantclient_*_1 /usr/local/instantclient \
+    && ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus 
+
+RUN docker-php-ext-configure oci8 --with-oci8=instantclient,/usr/local/instantclient
+RUN docker-php-ext-install oci8
+RUN echo /usr/local/instantclient/ > /etc/ld.so.conf.d/oracle-insantclient.conf
+RUN ldconfig
+
+# Configure php ext
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 
 # Instal ekstensi PHP yang diperlukan untuk pengembangan
-RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql zip gd intl gettext xml json
+RUN docker-php-ext-install mysqli pdo pdo_mysql pdo_pgsql pgsql zip gd intl gettext xml json curl opcache calendar sockets tokenizer mbstring bcmath bz2 iconv shmop exif ffi fileinfo hash
+RUN docker-php-ext-enable tokenizer sysvmsg sysvsem sysvshm
 
 # Aktifkan mod_rewrite untuk Apache
 RUN a2enmod rewrite headers deflate expires authz_core authz_groupfile setenvif 

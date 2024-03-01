@@ -4,8 +4,29 @@ FROM php:8.2-apache
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 RUN apt-get update
-RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev libxml2-dev
+RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev libxml2-dev unzip libc6 libaio1
 
+# ADD oracle/instantclient-basic-linux.x64-12.1.0.2.0.zip /tmp/
+ADD https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-basic-linux.x64-21.1.0.0.0.zip /tmp/
+# ADD oracle/instantclient-sdk-linux.x64-12.1.0.2.0.zip /tmp/
+ADD https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sdk-linux.x64-21.1.0.0.0.zip /tmp/
+# ADD oracle/instantclient-sqlplus-linux.x64-12.1.0.2.0.zip /tmp/
+ADD https://download.oracle.com/otn_software/linux/instantclient/211000/instantclient-sqlplus-linux.x64-21.1.0.0.0.zip /tmp/
+
+# unzip them
+RUN unzip /tmp/instantclient-basic-linux.x64-*.zip -d /usr/local/ \
+    && unzip /tmp/instantclient-sdk-linux.x64-*.zip -d /usr/local/ \
+    && unzip /tmp/instantclient-sqlplus-linux.x64-*.zip -d /usr/local/
+
+# install oci8
+RUN ln -s /usr/local/instantclient_*_1 /usr/local/instantclient \
+    && ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus 
+
+RUN docker-php-ext-configure oci8 --with-oci8=instantclient,/usr/local/instantclient \
+    && docker-php-ext-install oci8 \
+    && echo /usr/local/instantclient/ > /etc/ld.so.conf.d/oracle-insantclient.conf \
+    && ldconfig
+    
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 
 # Instal ekstensi PHP yang diperlukan untuk pengembangan
