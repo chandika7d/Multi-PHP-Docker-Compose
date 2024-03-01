@@ -1,7 +1,7 @@
 # Multi-PHP-Docker-Compose
 
 ## Cara Setup
-1. Buat folder data
+1. Buat folder ```mariadb``` dan ```postgres``` di dalam folder data
 2. Copy .env.example ke .env
 3. Sesuaikan .env
 4. Jalankan ```docker-compose -p "web-service" up -d --build``` untuk menjalankan semua service
@@ -13,8 +13,9 @@
 3. MYSQL_ROOT_PASSWORD : Password Root MariaDB
 4. MYSQL_USER : Username MariaDB
 5. MYSQL_PASSWORD : Password untuk user dengan username diatas
-6. PROJECT_FOLDER : Lokasi folder project php (sama kaya htdocs)
-
+6. POSTGRES_USER : Username Postgres
+7. POSTGRES_PASSWORD : Password untuk user dengan username diatas
+8. PROJECT_FOLDER : Lokasi folder project php (sama kaya htdocs)
 
 ## Info
 1. Jika terjadi error seperti dibawah itu normal, karena port disetting sama.
