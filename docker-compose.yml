@@ -13,7 +13,8 @@ services:
     depends_on:
       - mariadb
     environment:
-      - UPLOAD_LIMIT=512M
+      - UPLOAD_LIMIT=1G
+      - MEMORY_LIMIT=1G
       
   php-8.1:
     container_name: php-8.1
@@ -27,7 +28,8 @@ services:
     depends_on:
       - mariadb
     environment:
-      - UPLOAD_LIMIT=512M
+      - UPLOAD_LIMIT=1G
+      - MEMORY_LIMIT=1G
 
   php-8.2:
     container_name: php-8.2
@@ -41,7 +43,8 @@ services:
     depends_on:
       - mariadb
     environment:
-      - UPLOAD_LIMIT=512M
+      - UPLOAD_LIMIT=1G
+      - MEMORY_LIMIT=1G
 
   mariadb:
     container_name: db
