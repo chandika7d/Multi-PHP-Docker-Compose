@@ -1,7 +1,7 @@
 # Gunakan image resmi PHP 8.2 dengan Apache
 FROM php:8.2-apache
 
-RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+RUN usermod -u 999 www-data && groupmod -g 999 www-data
 
 RUN apt-get update
 RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev libxml2-dev unzip libc6 libaio1 curl libcurl4-openssl-dev libonig-dev libbz2-dev libfreetype6-dev libmcrypt-dev libreadline-dev libedit-dev libffi-dev \
@@ -45,3 +45,5 @@ RUN service apache2 restart
 
 # Set folder proyek sebagai volume
 VOLUME /var/www/html
+
+RUN chown -R 1000:1000 /var/www/html

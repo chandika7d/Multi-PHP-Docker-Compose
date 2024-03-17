@@ -3,6 +3,7 @@ version: '3'
 services:
   php-7.4:
     container_name: php-7.4
+    user: "${UID}"
     build:
       context: .
       dockerfile: Dockerfile-7.4
@@ -20,6 +21,7 @@ services:
       
   php-8.1:
     container_name: php-8.1
+    user: "${UID}"
     build:
       context: .
       dockerfile: Dockerfile-8.1
@@ -37,6 +39,7 @@ services:
 
   php-8.2:
     container_name: php-8.2
+    user: "${UID}"
     build:
       context: .
       dockerfile: Dockerfile-8.2
