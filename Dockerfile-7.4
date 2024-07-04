@@ -4,20 +4,20 @@ FROM php:7.4-apache
 RUN usermod -u 999 www-data && groupmod -g 999 www-data
 
 RUN apt-get update
-RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev libxml2-dev unzip libc6 libaio1 curl libcurl4-openssl-dev libonig-dev libbz2-dev libfreetype6-dev libmcrypt-dev libreadline-dev libedit-dev libffi-dev \
+RUN apt-get install -y libpq-dev libzip-dev libpng-dev libjpeg-dev libwebp-dev libicu-dev mc libmemcached-dev libxml2-dev unzip libc6 libaio1 libaio-dev curl libcurl4-openssl-dev libonig-dev libbz2-dev libfreetype6-dev libmcrypt-dev libreadline-dev libedit-dev libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./instantclient/instantclient-basic-linux.x64-21.12.0.0.0dbru.zip /tmp/
-COPY ./instantclient/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip /tmp/
-COPY ./instantclient/instantclient-sqlplus-linux.x64-21.12.0.0.0dbru.zip /tmp/
+COPY ./instantclient/instantclient-basic-linux.x64-21.14.0.0.0dbru.zip /tmp/
+COPY ./instantclient/instantclient-sdk-linux.x64-21.14.0.0.0dbru.zip /tmp/
+COPY ./instantclient/instantclient-sqlplus-linux.x64-21.14.0.0.0dbru.zip /tmp/
 
 # unzip them
-RUN unzip /tmp/instantclient-basic-linux.x64-*.zip -d /usr/local/ \
-    && unzip /tmp/instantclient-sdk-linux.x64-*.zip -d /usr/local/ \
-    && unzip /tmp/instantclient-sqlplus-linux.x64-*.zip -d /usr/local/
+RUN unzip /tmp/instantclient-basic-linux.x64-21.14.0.0.0dbru.zip -d /usr/local/ \
+    && unzip /tmp/instantclient-sdk-linux.x64-21.14.0.0.0dbru.zip -d /usr/local/ \
+    && unzip /tmp/instantclient-sqlplus-linux.x64-21.14.0.0.0dbru.zip -d /usr/local/
 
 # install oci8
-RUN ln -s /usr/local/instantclient_21_12 /usr/local/instantclient \
+RUN ln -s /usr/local/instantclient_21_14 /usr/local/instantclient \
     && ln -s /usr/local/instantclient/sqlplus /usr/bin/sqlplus 
 
 RUN docker-php-ext-configure oci8 --with-oci8=instantclient,/usr/local/instantclient
