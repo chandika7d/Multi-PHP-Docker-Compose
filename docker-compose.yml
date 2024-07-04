@@ -1,6 +1,25 @@
 version: '3'
 
 services:
+  php-7.4-v2:
+    container_name: php-7.4-v2
+    user: "${UID}"
+    platform: linux/arm/v8
+    build:
+      context: .
+      dockerfile: Dockerfile-7.4-v2
+    ports:
+      - "80:80"
+    volumes:
+      - ${PROJECT_FOLDER}:/var/www/html
+    depends_on:
+      - mariadb
+    environment:
+      - UPLOAD_LIMIT=1G
+      - MEMORY_LIMIT=1G
+      - NAF_ENVIRONMENT=development
+      - NAF_DEVELOPMENT=development
+
   php-7.4:
     container_name: php-7.4
     user: "${UID}"
